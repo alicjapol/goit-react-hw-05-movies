@@ -9,8 +9,8 @@ axios.defaults.headers.common['Authorization'] =
   'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzBiNzJlNzNiMjUyN2U0ZjRlMDYxZDZmZDBmYTlkYiIsInN1YiI6IjY1YzU0YzRjOGUyMGM1MDE3ZDMyYWUxOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2mBgQvEWwVciHVQqyL9i_5En4oUCDiV9ZbznosdE-cI';
 
 export default function TrendingMovie() {
-  const [movie, setMovie] = useState(null);
-  const url = `https://api.themoviedb.org/3/search/movie${movie?.backdrop_path
+  const [movie, setMovie] = useState();
+  const url =`https://image.tmdb.org/t/p/w500/${movie?.poster_path}"
 }`;
 
   useEffect(() => {
