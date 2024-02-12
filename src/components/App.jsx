@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
@@ -38,6 +38,8 @@ const StyledLink = styled(NavLink)`
 export default function AppRouter() {
   return (
     <BrowserRouter>
+
+    <Suspense fallback={<div>Loading...</div>}>
       <NavHeader>
         <StyledLink to="/">Home</StyledLink>
         <StyledLink to="/movies">Movies</StyledLink>
@@ -48,6 +50,8 @@ export default function AppRouter() {
         <Route path="/movies/:movieId" element={<MovieDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
+    
   );
 }
