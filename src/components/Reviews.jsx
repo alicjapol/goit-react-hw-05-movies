@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieReviews } from './components/Api';
+import { fetchMovieReviews } from './Api';
 import { PageContainer, ContentList, ContentItem } from './StyledComponents';
 
 export default function Reviews() {

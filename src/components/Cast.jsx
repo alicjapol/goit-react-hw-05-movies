@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieCredits } from './components/Api';
+import { fetchMovieCredits } from './Api';
 import { PageContainer, ContentList, ContentItem } from './StyledComponents';
 
 export default function Cast() {
