@@ -1,40 +1,32 @@
-import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getMovieById } from '../components/Api';
 
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useState } from 'react';
-
-//
-axios.defaults.headers.common['Authorization'] =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzBiNzJlNzNiMjUyN2U0ZjRlMDYxZDZmZDBmYTlkYiIsInN1YiI6IjY1YzU0YzRjOGUyMGM1MDE3ZDMyYWUxOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2mBgQvEWwVciHVQqyL9i_5En4oUCDiV9ZbznosdE-cI';
-
-export default function TrendingMovie() {
-  const [movie, setMovie] = useState();
-  const url =`https://image.tmdb.org/t/p/w500/${movie?.poster_path}"
-}`;
+const TrendingMovie = () => {
+  const [movie, setMovie] = useState(null);
+  const { movieId } = useParams();
 
   useEffect(() => {
-    const getMovie = async () => {
-      const res = await axios.get(
-        'https://api.themoviedb.org/3/trending/movie/day?language=en-US'
-      );
-      console.log(res);
-      setMovie(res.data.results[0]);
+    const fetchMovie = async () => {
+      const data = await getMovieById(movieId);
+      setMovie(data);
     };
-    getMovie();
-  }, []);
+    fetchMovie();
+  }, [movieId]);
+
+  if (!movie) {
+    return <p>Loading...</p>;
+  }
+
+  const url = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+
   return (
     <div>
-      <h2>Trending Movie</h2>
-      {movie ? (
-        <div>
-          <img  src={url} alt="movies" />
-          <h3>{movie.title}</h3>
-          <p>{movie.overview}</p>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <h2>{movie.title}</h2>
+      <img src={url} alt={movie.title} />
+      <p>{movie.overview}</p>
     </div>
   );
-}
+};
+
+export default TrendingMovie;
