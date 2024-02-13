@@ -5,8 +5,15 @@ import {
   ContentList,
   ContentItem,
 } from '../components/StyledComponents';
+import styled from 'styled-components';
 
 import { fetchTrendingMovies } from '../components/Api';
+
+const StyledHeader  = styled.h2`
+font-size: 36px;
+text-align: center;
+text-shadow: 2px 2px 10px 
+`;
 
 export default function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -21,7 +28,9 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <h2>Trending Today</h2>
+      <StyledHeader>
+       Trending Today
+      </StyledHeader>
       <ContentList>
         {trendingMovies.map(movie => (
           <ContentItem key={movie.id}>

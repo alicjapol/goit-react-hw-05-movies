@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { NavLink, useParams, Outlet } from 'react-router-dom'; 
 import { fetchMovieById } from '../components/Api';
 import { PageContainer } from '../components/StyledComponents';
 import styled from 'styled-components';
@@ -45,11 +45,12 @@ export default function MovieDetails() {
           <h2>{movie.title}</h2>
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
           <p>{movie.overview}</p>
-          <ToggleButton onClick={() => setShowCast(!showCast)}>Show Cast</ToggleButton>
-          <ToggleButton onClick={() => setShowReviews(!showReviews)}>Show Reviews</ToggleButton>
+          <NavLink onClick={() => setShowCast(!showCast)}>Show Cast</NavLink>
+          <NavLink onClick={() => setShowReviews(!showReviews)}>Show Reviews</NavLink>
           <Suspense fallback={<div>Loading...</div>}>
             {showCast && <Cast movieId={movieId} />}
             {showReviews && <Reviews movieId={movieId} />}
+            <Outlet />
           </Suspense>
         </>
       )}
