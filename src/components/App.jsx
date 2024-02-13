@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react';
 import styled from 'styled-components';
+import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails'));
-
+const Cast = lazy(() => import('./Cast')); // Przy założeniu, że plik istnieje
+const Reviews = lazy(() => import('./Reviews')); // Przy założeniu, że plik istnieje
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const NavHeader = styled.header`
@@ -35,23 +36,24 @@ const StyledLink = styled(NavLink)`
   }
 `;
 
-export default function AppRouter() {
+export default function App() {
   return (
     <BrowserRouter>
-
-    <Suspense fallback={<div>Loading...</div>}>
-      <NavHeader>
-        <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/movies">Movies</StyledLink>
-      </NavHeader>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NavHeader>
+          <StyledLink to="/">Home</StyledLink>
+          <StyledLink to="/movies">Movies</StyledLink>
+        </NavHeader>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
       </Suspense>
     </BrowserRouter>
-    
   );
 }

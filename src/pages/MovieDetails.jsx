@@ -1,11 +1,16 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Routes, Route } from 'react-router-dom';
 import {
   fetchMovieById,
   fetchMovieCredits,
   fetchMovieReviews,
 } from '../components/Api';
 import styled from 'styled-components';
+
+// Leniwie zaimportowane komponenty
+const Cast = lazy(() => import('../components/Cast'));
+const Reviews = lazy(() => import('../components/Reviews'));
+
 const PageContainer = styled.div`
   color: #ffc0cb;
   background-color: #000;
@@ -22,26 +27,9 @@ const ToggleButton = styled.button`
   }
 `;
 
-const ContentList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-const ContentItem = styled.li`
-  margin: 10px 0;
-`;
-
-// Leniwie zaimportowane komponenty
-const Cast = lazy(() => import('../components/Cast')); // Zakładam poprawne ścieżki
-const Reviews = lazy(() => import('../components/Reviews'));
-
 export default function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const [credits, setCredits] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [showCredits, setShowCredits] = useState(false);
-  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -51,22 +39,6 @@ export default function MovieDetails() {
 
     getMovieDetails();
   }, [movieId]);
-
-  const handleShowCredits = async () => {
-    if (credits.length === 0) {
-      const creditsData = await fetchMovieCredits(movieId);
-      setCredits(creditsData);
-    }
-    setShowCredits(!showCredits);
-  };
-
-  const handleShowReviews = async () => {
-    if (reviews.length === 0) {
-      const reviewsData = await fetchMovieReviews(movieId);
-      setReviews(reviewsData);
-    }
-    setShowReviews(!showReviews);
-  };
 
   return (
     <PageContainer>
@@ -78,18 +50,16 @@ export default function MovieDetails() {
             alt={movie.title}
           />
           <p>{movie.overview}</p>
-          <ToggleButton onClick={handleShowCredits}>Cast</ToggleButton>
-          {showCredits && (
-            <Suspense fallback={<div>Loading...</div>}>
-              <Cast />
-            </Suspense>
-          )}
-          <ToggleButton onClick={handleShowReviews}>Reviews</ToggleButton>
-          {showReviews && (
-            <Suspense fallback={<div>Loading...</div>}>
-              <Reviews />
-            </Suspense>
-          )}
+          <nav>
+            <ToggleButton as="a" href={`/movies/${movieId}/cast`}>Cast</ToggleButton>
+            <ToggleButton as="a" href={`/movies/${movieId}/reviews`}>Reviews</ToggleButton>
+          </nav>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="cast" element={<Cast movieId={movieId} />} />
+              <Route path="reviews" element={<Reviews movieId={movieId} />} />
+            </Routes>
+          </Suspense>
         </div>
       )}
     </PageContainer>
