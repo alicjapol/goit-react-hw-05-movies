@@ -46,7 +46,7 @@ export default function MovieDetails() {
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
           <p>{movie.overview}</p>
           <Link to="cast">Show Cast</Link>
-          <Link to="cast">Show Reviews</Link>
+          <Link to="reviews">Show Reviews</Link>
             <Outlet />
         </>
       )}
