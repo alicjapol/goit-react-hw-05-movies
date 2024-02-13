@@ -1,40 +1,38 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams, Routes, Route } from 'react-router-dom';
-import {
-  fetchMovieById,
-  fetchMovieCredits,
-  fetchMovieReviews,
-} from '../components/Api';
+import { useState, useEffect, Suspense, lazy } from 'react';
+import { useParams } from 'react-router-dom'; 
+import { fetchMovieById } from '../components/Api';
+import { PageContainer } from '../components/StyledComponents';
 import styled from 'styled-components';
 
-// Leniwie zaimportowane komponenty
-const Cast = lazy(() => import('../components/Cast'));
-const Reviews = lazy(() => import('../components/Reviews'));
-
-const PageContainer = styled.div`
-  color: #ffc0cb;
-  background-color: #000;
-  padding: 20px;
-`;
-
 const ToggleButton = styled.button`
+  color: #ffc0cb;
   background: none;
   border: none;
-  color: #ffc0cb;
   cursor: pointer;
+  text-decoration: none;
+  margin: 10px 0; // Dodano dla odstępu
   &:hover {
     text-decoration: underline;
   }
 `;
 
+const Cast = lazy(() => import('../components/Cast'));
+const Reviews = lazy(() => import('../components/Reviews'));
+
 export default function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const [showCast, setShowCast] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     const getMovieDetails = async () => {
-      const movieData = await fetchMovieById(movieId);
-      setMovie(movieData);
+      try {
+        const movieData = await fetchMovieById(movieId);
+        setMovie(movieData);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+      }
     };
 
     getMovieDetails();
@@ -43,24 +41,17 @@ export default function MovieDetails() {
   return (
     <PageContainer>
       {movie && (
-        <div>
+        <>
           <h2>{movie.title}</h2>
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            alt={movie.title}
-          />
+          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
           <p>{movie.overview}</p>
-          <nav>
-            <ToggleButton as="a" href={`/movies/${movieId}/cast`}>Cast</ToggleButton>
-            <ToggleButton as="a" href={`/movies/${movieId}/reviews`}>Reviews</ToggleButton>
-          </nav>
+          <ToggleButton onClick={() => setShowCast(!showCast)}>Show Cast</ToggleButton>
+          <ToggleButton onClick={() => setShowReviews(!showReviews)}>Show Reviews</ToggleButton>
           <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path="cast" element={<Cast movieId={movieId} />} />
-              <Route path="reviews" element={<Reviews movieId={movieId} />} />
-            </Routes>
+            {showCast && <Cast movieId={movieId} />}
+            {showReviews && <Reviews movieId={movieId} />}
           </Suspense>
-        </div>
+        </>
       )}
     </PageContainer>
   );

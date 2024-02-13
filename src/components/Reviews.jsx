@@ -11,9 +11,14 @@ export default function Reviews() {
     const getMovieReviews = async () => {
       try {
         const reviewsData = await fetchMovieReviews(movieId);
-        setReviews(reviewsData.results);
+        if (reviewsData && Array.isArray(reviewsData.results)) {
+          setReviews(reviewsData.results);
+        } else {
+          setReviews([]);
+        }
       } catch (error) {
         console.error('Error fetching movie reviews:', error);
+        setReviews([]); 
       }
     };
 
@@ -22,7 +27,6 @@ export default function Reviews() {
 
   return (
     <PageContainer>
-      <h2>Reviews</h2>
       {reviews.length > 0 ? (
         <ContentList>
           {reviews.map(review => (

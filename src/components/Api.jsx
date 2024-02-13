@@ -38,6 +38,7 @@ export async function fetchMovieById(movieId) {
   }
 }
 
+
 export async function fetchMovieCredits(movieId) {
   try {
     const response = await axios.get(`/movie/${movieId}/credits`);
@@ -47,6 +48,7 @@ export async function fetchMovieCredits(movieId) {
     throw error;
   }
 }
+
 
 export async function fetchMovieReviews(movieId) {
   try {

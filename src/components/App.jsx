@@ -5,8 +5,8 @@ import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-do
 const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails'));
-const Cast = lazy(() => import('./Cast')); // Przy założeniu, że plik istnieje
-const Reviews = lazy(() => import('./Reviews')); // Przy założeniu, że plik istnieje
+const Cast = lazy(() => import('./Cast')); 
+const Reviews = lazy(() => import('./Reviews')); 
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const NavHeader = styled.header`
