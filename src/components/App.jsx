@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Routes, Route, NavLink, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 
 const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
@@ -47,7 +47,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:movieId" element={<MovieDetails />}>
-          </Route> 
+          </Route>
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Suspense>
