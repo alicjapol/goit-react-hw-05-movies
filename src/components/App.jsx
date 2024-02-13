@@ -47,6 +47,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:movieId" element={<MovieDetails />}>
+
           </Route>
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>

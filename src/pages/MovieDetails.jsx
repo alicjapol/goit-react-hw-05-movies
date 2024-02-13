@@ -1,20 +1,20 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { NavLink, useParams, Outlet } from 'react-router-dom'; 
+import { Link, useParams, Outlet } from 'react-router-dom'; 
 import { fetchMovieById } from '../components/Api';
 import { PageContainer } from '../components/StyledComponents';
 import styled from 'styled-components';
 
-const ToggleButton = styled.button`
-  color: #ffc0cb;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  margin: 10px 0; // Dodano dla odstępu
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+// const StyledLink = styled.Link`
+//   color: #ffc0cb;
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   text-decoration: none;
+//   margin: 10px 0; // Dodano dla odstępu
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// `;
 
 const Cast = lazy(() => import('../components/Cast'));
 const Reviews = lazy(() => import('../components/Reviews'));
@@ -45,13 +45,9 @@ export default function MovieDetails() {
           <h2>{movie.title}</h2>
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
           <p>{movie.overview}</p>
-          <NavLink onClick={() => setShowCast(!showCast)}>Show Cast</NavLink>
-          <NavLink onClick={() => setShowReviews(!showReviews)}>Show Reviews</NavLink>
-          <Suspense fallback={<div>Loading...</div>}>
-            {showCast && <Cast movieId={movieId} />}
-            {showReviews && <Reviews movieId={movieId} />}
+          <Link to="cast">Show Cast</Link>
+          <Link to="cast">Show Reviews</Link>
             <Outlet />
-          </Suspense>
         </>
       )}
     </PageContainer>
