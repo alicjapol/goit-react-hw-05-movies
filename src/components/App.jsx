@@ -1,12 +1,18 @@
 import { lazy, Suspense } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  NavLink,
+  Navigate,
+} from 'react-router-dom';
 
 const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails'));
-const Cast = lazy(() => import('./Cast')); 
-const Reviews = lazy(() => import('./Reviews')); 
+const Cast = lazy(() => import('./Cast'));
+const Reviews = lazy(() => import('./Reviews'));
 
 const NavHeader = styled.header`
   background-color: #000;
@@ -37,7 +43,7 @@ const StyledLink = styled(NavLink)`
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/goit-react-hw-05-movies/">
       <Suspense fallback={<div>Loading...</div>}>
         <NavHeader>
           <StyledLink to="/">Home</StyledLink>
